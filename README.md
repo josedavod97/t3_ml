@@ -1,20 +1,49 @@
-# CasaValor: predicción de precios de vivienda
+# 🏠 t3_ml
 
-API y aplicación web educativa que estima precios de vivienda en pesos colombianos mediante regresión lineal. La interfaz permite escribir o deslizar el área y actualiza la estimación y la gráfica.
+<p align="center">
+  <strong>Proyectos de aprendizaje automático hechos para practicar.</strong><br>
+  CasaValor estima precios de vivienda y Random Forest muestra una clasificación experimental.
+</p>
 
-> El modelo usa nueve datos de ejemplo y solo considera el área. No es una tasación ni representa los precios actuales del mercado.
+<p align="center">
+  <a href="https://github.com/josedavod97/t3_ml"><img src="https://img.shields.io/badge/GitHub-t3__ml-181717?logo=github" alt="Repositorio GitHub"></a>
+  <img src="https://img.shields.io/badge/Python-3-blue?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Despliegue-Railway-8B5CF6" alt="Railway">
+  <img src="https://img.shields.io/badge/Demo-Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
+</p>
+
+> **Aviso:** son proyectos educativos. CasaValor usa pocos datos de ejemplo y Random Forest utiliza datos médicos sintéticos; ninguno debe usarse para tomar decisiones reales.
 
 ## Enlaces del proyecto
 
-- [Aplicación CasaValor](https://casa-valor-frontend-production.up.railway.app/)
-- [API de CasaValor](https://casa-valor-production.up.railway.app/)
-- [Documentación interactiva de la API (Swagger)](https://casa-valor-production.up.railway.app/docs)
-- [Demostración Random Forest en Streamlit](https://josedm.streamlit.app/)
-- [Repositorio en GitHub](https://github.com/josedavod97/t3_ml)
+| Proyecto | Enlace |
+|---|---|
+| CasaValor — aplicación web | [Abrir aplicación](https://casa-valor-frontend-production.up.railway.app/) |
+| CasaValor — API | [Abrir API](https://casa-valor-production.up.railway.app/) |
+| Documentación de la API | [Abrir Swagger](https://casa-valor-production.up.railway.app/docs) |
+| Demostración Random Forest | [Abrir en Streamlit](https://josedavod.streamlit.app/) |
+| Código fuente | [Ver repositorio en GitHub](https://github.com/josedavod97/t3_ml) |
 
-## Ejecutar localmente en Windows
+## Índice
 
-Desde la carpeta raíz del proyecto:
+- [Proyectos](#proyectos)
+- [CasaValor en local](#casavalor-en-local)
+- [API](#api)
+- [Pruebas](#pruebas)
+- [Demostración Random Forest](#demostración-random-forest)
+- [Despliegue en Railway](#despliegue-en-railway)
+- [Estructura](#estructura)
+
+## Proyectos
+
+| Proyecto | ¿Qué hace? | Tecnologías |
+|---|---|---|
+| **CasaValor** | Estima el precio de una vivienda a partir de su área. | FastAPI, Flask, scikit-learn, Docker |
+| **Random Forest** | Clasifica datos médicos sintéticos en una interfaz interactiva. | Streamlit, scikit-learn, Plotly |
+
+## CasaValor en local
+
+Los siguientes pasos son para Windows y PowerShell. Desde la carpeta raíz, crea el entorno e instala las dependencias:
 
 ```powershell
 python -m venv venv
@@ -22,42 +51,35 @@ python -m venv venv
 python -m pip install -r ml_models\linear_regression\backend\requirements.txt -r ml_models\linear_regression\frontend\requirements.txt
 ```
 
-Inicia cada servicio en una terminal independiente:
+Inicia el backend en una terminal:
 
 ```powershell
-# Backend
 $env:FRONTEND_URL = "http://127.0.0.1:5000"
 python -m uvicorn ml_models.linear_regression.backend.main:app --host 127.0.0.1 --port 8000
 ```
 
+Inicia el frontend en otra terminal:
+
 ```powershell
-# Frontend
 $env:BACKEND_URL = "http://127.0.0.1:8000"
 python -m flask --app ml_models.linear_regression.frontend.main run --host 127.0.0.1 --port 5000
 ```
 
-Direcciones locales:
-
-- Frontend: <http://127.0.0.1:5000>
-- API: <http://127.0.0.1:8000>
-- Swagger: <http://127.0.0.1:8000/docs>
+| Servicio local | Dirección |
+|---|---|
+| Aplicación web | <http://127.0.0.1:5000> |
+| API | <http://127.0.0.1:8000> |
+| Swagger | <http://127.0.0.1:8000/docs> |
 
 ## API
 
-### `GET /`
+| Método y ruta | Descripción |
+|---|---|
+| `GET /` | Confirma que la API está activa. |
+| `GET /chart-data` | Devuelve los datos y valores que usa la gráfica. |
+| `POST /predict` | Estima el precio para un área en metros cuadrados. |
 
-Health check:
-
-```json
-{
-  "status": "ok",
-  "message": "API de predicción activa"
-}
-```
-
-### `POST /predict`
-
-Envía el área en metros cuadrados:
+Ejemplo de solicitud a `POST /predict`:
 
 ```json
 {
@@ -65,7 +87,7 @@ Envía el área en metros cuadrados:
 }
 ```
 
-Respuesta:
+Respuesta de ejemplo:
 
 ```json
 {
@@ -75,56 +97,64 @@ Respuesta:
 }
 ```
 
-El área debe ser un número mayor que cero. Una solicitud no válida devuelve `422`.
+El área debe ser mayor que cero. Si el dato no es válido, la API responde con `422`.
 
-## Ejecutar las pruebas
+## Pruebas
+
+Desde la raíz del proyecto, ejecuta:
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-### `GET /chart-data`
+## Demostración Random Forest
 
-Devuelve los datos de entrenamiento, la pendiente y el intercepto que utiliza el frontend para dibujar la gráfica.
+Esta demo es independiente de CasaValor. Trabaja con un conjunto de datos sintéticos y **no es una herramienta de diagnóstico médico**.
 
-## Entrenar el modelo
-
-```powershell
-python ml_models\linear_regression\backend\train.py
-```
-
-El script entrena el modelo, lo guarda en `ml_models\linear_regression\backend\model\linear_model.joblib` y abre la gráfica de dispersión. También guarda la gráfica como `price_prediction_plot.png` dentro de `backend`.
-
-La API entrena el modelo automáticamente si todavía no existe el archivo guardado.
-
-## Módulo experimental Random Forest
-
-Se agregó en `ml_models\random_forest` una demostración independiente de clasificación de enfermedades. Usa un dataset sintético y no forma parte de CasaValor ni de sus servicios Railway; no debe usarse para diagnóstico o decisiones médicas.
+Instala sus dependencias y ejecuta Streamlit:
 
 ```powershell
 python -m pip install -r ml_models\random_forest\requirements.txt
-python ml_models\random_forest\2.Entrenar_modelo.py
 python -m streamlit run ml_models\random_forest\3.Predecir_enfermedad.py
 ```
 
-El dataset incluido está en `ml_models\random_forest\data`. Para regenerarlo, ejecuta `python ml_models\random_forest\1.Crear_dataset.py`. El modelo entrenado se guarda en `ml_models\random_forest\models` y está excluido de Git.
-
-## Desplegar en Railway
-
-El proyecto usa dos servicios independientes dentro del mismo proyecto de Railway:
+Si el modelo no existe al iniciar, la aplicación lo entrena con el dataset incluido. Para ver las métricas de entrenamiento manualmente:
 
 ```powershell
-# Backend: Dockerfile propio, API con Uvicorn.
+python ml_models\random_forest\2.Entrenar_modelo.py
+```
+
+El dataset está en `ml_models\random_forest\data`. Puedes generarlo de nuevo con:
+
+```powershell
+python ml_models\random_forest\1.Crear_dataset.py
+```
+
+Los modelos generados se guardan en `ml_models\random_forest\models` y no se suben a Git.
+
+## Despliegue en Railway
+
+CasaValor usa dos servicios separados, cada uno con su propio Dockerfile:
+
+| Servicio | Tecnología | URL |
+|---|---|---|
+| Frontend | Flask y Gunicorn | [casa-valor-frontend-production](https://casa-valor-frontend-production.up.railway.app/) |
+| Backend | FastAPI y Uvicorn | [casa-valor-production](https://casa-valor-production.up.railway.app/) |
+
+Con Railway CLI, desde la raíz del repositorio:
+
+```powershell
+# Backend
 railway up .\ml_models\linear_regression\backend --path-as-root --service casa-valor
 
-# Frontend: Dockerfile propio, web con Gunicorn.
+# Frontend
 railway add --service casa-valor-frontend
 railway up .\ml_models\linear_regression\frontend --path-as-root --service casa-valor-frontend
 ```
 
-Genera un dominio para cada servicio con `railway domain --service casa-valor` y `railway domain --service casa-valor-frontend`. Configura `BACKEND_URL` en el frontend con el dominio del backend y `FRONTEND_URL` en el backend con el dominio del frontend. La web se sirve con Gunicorn; la API, con Uvicorn. Ambos servicios escuchan en el puerto `$PORT` asignado por Railway.
+Cada servicio necesita un dominio de Railway. Configura `BACKEND_URL` en el frontend con el dominio de la API y `FRONTEND_URL` en el backend con el dominio del frontend. Railway asigna el puerto mediante la variable `$PORT`.
 
-Railway detecta el `Dockerfile` de cada carpeta y construye ambos servicios con Docker. Para construir las imágenes localmente desde la raíz:
+Para construir las imágenes con Docker desde la raíz:
 
 ```powershell
 docker build -t casa-valor-backend .\ml_models\linear_regression\backend
@@ -134,36 +164,33 @@ docker build -t casa-valor-frontend .\ml_models\linear_regression\frontend
 ## Estructura
 
 ```text
-t3_ml\
+t3_ml/
 ├── main.py
-├── requirements.txt
 ├── README.md
-└── ml_models\
-    ├── linear_regression\
-    │   ├── backend\
-    │   │   ├── .dockerignore
-    │   │   ├── Dockerfile
-    │   │   ├── main.py
-    │   │   ├── requirements.txt
-    │   │   ├── train.py
-    │   │   └── model\
-    │   │       └── linear_model.joblib  (generado al entrenar)
-    │   └── frontend\
-    │       ├── .dockerignore
-    │       ├── Dockerfile
-    │       ├── main.py
-    │       ├── requirements.txt
-    │       ├── app.js
-    │       ├── index.html
-    │       └── style.css
-    └── random_forest\
-        ├── 1.Crear_dataset.py
-        ├── 2.Entrenar_modelo.py
-        ├── 3.Predecir_enfermedad.py
-        ├── README.md
-        ├── requirements.txt
-        ├── data\
-        │   └── dataset_medico_ampliado.csv
-        └── models\
-            └── modelo_random_forest_ampliado.pkl  (generado al entrenar)
+├── requirements.txt
+├── ml_models/
+│   ├── linear_regression/
+│   │   ├── backend/
+│   │   │   ├── Dockerfile
+│   │   │   ├── main.py
+│   │   │   ├── requirements.txt
+│   │   │   └── train.py
+│   │   └── frontend/
+│   │       ├── Dockerfile
+│   │       ├── app.js
+│   │       ├── index.html
+│   │       ├── main.py
+│   │       ├── requirements.txt
+│   │       └── style.css
+│   └── random_forest/
+│       ├── 1.Crear_dataset.py
+│       ├── 2.Entrenar_modelo.py
+│       ├── 3.Predecir_enfermedad.py
+│       ├── model_utils.py
+│       ├── requirements.txt
+│       └── data/
+└── tests/
+    ├── test_api.py
+    ├── test_frontend.py
+    └── test_random_forest_model.py
 ```
