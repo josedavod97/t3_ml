@@ -4,6 +4,14 @@ API y aplicación web educativa que estima precios de vivienda en pesos colombia
 
 > El modelo usa nueve datos de ejemplo y solo considera el área. No es una tasación ni representa los precios actuales del mercado.
 
+## Enlaces del proyecto
+
+- [Aplicación CasaValor](https://casa-valor-frontend-production.up.railway.app/)
+- [API de CasaValor](https://casa-valor-production.up.railway.app/)
+- [Documentación interactiva de la API (Swagger)](https://casa-valor-production.up.railway.app/docs)
+- [Demostración Random Forest en Streamlit](https://josedm.streamlit.app/)
+- [Repositorio en GitHub](https://github.com/josedavod97/t3_ml)
+
 ## Ejecutar localmente en Windows
 
 Desde la carpeta raíz del proyecto:
