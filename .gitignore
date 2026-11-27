@@ -1,0 +1,50 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Modelos entrenados y salidas generadas
+**/model/
+**/models/
+*.joblib
+*.pkl
+*.pickle
+ml_models/linear_regression/backend/price_prediction_plot.png
+
+# Cachés y resultados de pruebas
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Configuración local y secretos
+.env
+.env.*
+!.env.example
+
+# Archivos temporales y del sistema operativo
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini

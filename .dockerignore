@@ -1,0 +1,12 @@
+venv/
+venv/
+.venv/
+**/__pycache__/
+*.py[cod]
+ml_models/linear_regression/backend/model/
+ml_models/linear_regression/backend/price_prediction_plot.png
+.venv/
+**/__pycache__/
+*.py[cod]
+ml_models/linear_regression/backend/model/
+ml_models/linear_regression/backend/price_prediction_plot.png

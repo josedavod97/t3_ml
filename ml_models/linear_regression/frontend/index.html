@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Proyecto educativo que estima el precio de una vivienda usando su área y regresión lineal."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>CasaValor | Estimación de vivienda</title>
+    <link rel="stylesheet" href="/static/style.css?v=3" />
+    <script src="/config.js" defer></script>
+    <script src="/static/app.js?v=4" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/app" aria-label="CasaValor, inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M4.5 14.5 16 5l11.5 9.5v13h-23v-13Z" />
+            <path d="M12 27.5v-9h8v9M4.5 14.5h23" />
+          </svg>
+        </span>
+        <span>casa<span class="brand-accent">valor</span></span>
+      </a>
+      <a id="api-docs-link" class="topbar-link" href="#">API de predicción <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> PROYECTO DE REGRESIÓN LINEAL · COLOMBIA</p>
+        <h1>Estima el precio de una vivienda<br /><span>según su área.</span></h1>
+        <p class="intro-copy">
+          Escribe el área de una vivienda para ver el resultado que calcula el modelo de regresión lineal.
+        </p>
+      </section>
+
+      <section class="estimate-card" aria-labelledby="form-title">
+        <div class="card-heading">
+          <div class="step-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 20V9l8-6 8 6v11H4Z" />
+              <path d="M9 20v-6h6v6M4 9h16" />
+            </svg>
+          </div>
+          <div>
+            <p class="card-kicker">PRUEBA EL MODELO</p>
+            <h2 id="form-title">Área de la vivienda</h2>
+          </div>
+        </div>
+
+        <form id="prediction-form">
+          <label for="area">Área construida</label>
+          <div class="input-wrap">
+            <input
+              id="area"
+              name="area_m2"
+              type="number"
+              min="1"
+              step="any"
+              value="100"
+              inputmode="decimal"
+              placeholder="Ej. 100"
+              autocomplete="off"
+              required
+            />
+            <span class="input-unit">m<sup>2</sup></span>
+          </div>
+          <div class="range-control">
+            <input
+              id="area-slider"
+              type="range"
+              min="70"
+              max="150"
+              step="any"
+              value="100"
+              aria-label="Ajustar el área de la vivienda"
+            />
+            <div class="range-labels">
+              <span id="slider-min">70 m²</span>
+              <span id="slider-value">100 m²</span>
+              <span id="slider-max">150 m²</span>
+            </div>
+          </div>
+          <p class="field-hint">Puedes escribir el área o mover el control. La estimación cambia automáticamente.</p>
+          <button id="submit-button" type="submit">
+            <span>Calcular estimación</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M3.5 10h13m-5-5 5 5-5 5" />
+            </svg>
+          </button>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+        </form>
+
+        <section id="result" class="result" aria-live="polite" hidden>
+          <div class="result-divider"></div>
+          <p class="result-label">RESULTADO ESTIMADO</p>
+          <p id="result-price" class="result-price"></p>
+          <p id="result-area" class="result-area"></p>
+          <div class="result-footnote">
+            <span class="result-check" aria-hidden="true">✓</span>
+            Calculado usando regresión lineal
+          </div>
+        </section>
+      </section>
+
+      <section class="chart-card" aria-labelledby="chart-title">
+        <div class="chart-heading">
+          <div>
+            <p class="card-kicker">DATOS DEL MODELO</p>
+            <h2 id="chart-title">Relación entre área y precio</h2>
+          </div>
+          <span class="chart-badge">Datos de ejemplo</span>
+        </div>
+        <svg
+          id="model-chart"
+          class="model-chart"
+          viewBox="0 0 640 420"
+          role="img"
+          aria-label="Gráfica de áreas y precios de vivienda"
+        ></svg>
+        <p id="chart-error" class="chart-error" role="alert" hidden></p>
+        <div class="chart-legend" aria-label="Leyenda de la gráfica">
+          <span><i class="legend-dot" aria-hidden="true"></i>Precios observados</span>
+          <span><i class="legend-line" aria-hidden="true"></i>Línea de regresión</span>
+          <span><i class="legend-selection" aria-hidden="true"></i>Tu selección</span>
+        </div>
+      </section>
+
+      <section class="method-note" aria-label="Información del modelo">
+        <span class="method-icon" aria-hidden="true">i</span>
+        <p>
+          <strong>Este resultado es una aproximación.</strong>
+          Para este ejercicio, el modelo usa algunos datos de ejemplo y solo tiene en cuenta el área.
+          El precio real también depende de la ubicación, el estado y otras características de la vivienda.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <span>CasaValor</span>
+      <span>Proyecto educativo · Precios en pesos colombianos</span>
+    </footer>
+  </body>
+</html>
