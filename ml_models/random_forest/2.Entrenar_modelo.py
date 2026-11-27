@@ -3,9 +3,10 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
+
+from model_utils import crear_clasificador
 
 CARPETA = Path(__file__).resolve().parent
 RUTA_DATASET = CARPETA / "data" / "dataset_medico_ampliado.csv"
@@ -49,11 +50,7 @@ try:
     )
 
     log("3. ENTRENAMIENTO")
-    modelo = RandomForestClassifier(
-        n_estimators=200,
-        random_state=42,
-        n_jobs=-1,
-    )
+    modelo = crear_clasificador()
     modelo.fit(X_entrenamiento, y_entrenamiento)
     print("Modelo entrenado.")
 

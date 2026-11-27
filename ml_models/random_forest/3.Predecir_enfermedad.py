@@ -1,11 +1,13 @@
 from pathlib import Path
 
-import joblib
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from model_utils import cargar_o_entrenar_modelo
+
 CARPETA = Path(__file__).resolve().parent
+RUTA_DATASET = CARPETA / "data" / "dataset_medico_ampliado.csv"
 RUTA_MODELO = CARPETA / "models" / "modelo_random_forest_ampliado.pkl"
 
 st.set_page_config(page_title="Demostración Random Forest", page_icon="🩺", layout="wide")
@@ -20,12 +22,7 @@ st.markdown("""
 
 @st.cache_resource
 def load_model():
-    if not RUTA_MODELO.is_file():
-        raise FileNotFoundError(
-            f"No se encontró el modelo en {RUTA_MODELO}. "
-            "Ejecuta primero 2.Entrenar_modelo.py."
-        )
-    return joblib.load(RUTA_MODELO)
+    return cargar_o_entrenar_modelo(RUTA_MODELO, RUTA_DATASET)
 
 model = load_model()
 features = model.feature_names_in_
